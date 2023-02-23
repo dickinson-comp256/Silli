@@ -1,0 +1,11 @@
+# This program has only
+# statements that are 
+# comments, blanks and declarations.
+
+LET X=2
+LET Y=3
+LET Z=4
+
+# These are the three types
+# of statements supported by
+# the provided starter code.
