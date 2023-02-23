@@ -26,7 +26,7 @@ public class Declaration extends ProgramStatement {
         // Find the variable name
         String var = statement.substring(4,5);
         // Find the value assigned to the varaible.
-        String val = statement.substring(6,7);
+        String val = statement.substring(6);
 
         // Do some error checking...
 
