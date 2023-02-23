@@ -15,24 +15,38 @@ public class Interpreter {
     private List<ProgramStatement> theProgram;
     private Map<String,Integer> varMap;
     private Map<String,Integer> labelMap;
-    private static boolean DEBUG = true;
+
+    private static boolean DEBUG = false;
 
     public static void main(String[] args) {
 
-        // Usage: java Interpreter <source file>
-		if (args.length != 1) {
-            System.out.println("Usage:  java Interpreter <source file> ");
+		if (args.length == 0 || 
+            args.length > 2 || 
+            (args.length == 1 && args[0].equals("-debug")) ||
+            (args.length == 2 && !args[0].equals("-debug"))) {
+            System.out.println("Usage:  java Interpreter [-debug] <source file> ");
             System.out.println("  <source file>: Path to the program to be run by the interpreter.");
 			System.exit(-1);
 		}
 
-        Interpreter elena = new Interpreter(args[0]);
+        Interpreter elena = null;
+        String programName = null;
+        if (args[0].equals("-debug")) {
+            DEBUG = true;
+            programName = args[1];
+        }
+        else {
+            programName = args[0];
+        }
+
+        elena = new Interpreter(programName);
         elena.buildProgram();
 
         if (DEBUG) {
             System.out.println();
-            System.out.println("Interpreting Program: " + args[0]);
+            System.out.println("Interpreting Program: " + programName);
             System.out.println();
+            System.out.println("Program Source Code:");
             elena.printProgram();
 
             if (elena.labelMap.size() > 0) {

@@ -23,17 +23,10 @@ public class Declaration extends ProgramStatement {
     }
 
     public int execute() {
-
-        // Remove the LET from the start of the Declaration statement.
-        String withoutLet = statement.substring(4);
-
-        // Split the Declaration statement around the = sign.
-        String[] stmtTokens = withoutLet.split("=");
-
         // Find the variable name
-        String var = stmtTokens[0];
+        String var = statement.substring(4,5);
         // Find the value assigned to the varaible.
-        String val = stmtTokens[1];
+        String val = statement.substring(6,7);
 
         // Do some error checking...
 

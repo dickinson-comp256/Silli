@@ -3,22 +3,33 @@ import java.util.Map;
 /**
  * Abstract class representing program statements. 
  *
- * There will be a sub-class of this class for each type of program statement in the langauge.  
- * Each of these sub-classes will be able to:
+ * There will be a sub-class of this class for each type of 
+ * program statement in the langauge.  Each of these 
+ * sub-classes will be able to:
  *   - recognize statements that it can execute
  *   - execute those statements
  */
 public abstract class ProgramStatement {
 
-	protected String rawLine;               // The whole line as it appears in the program file
-    protected int lineNumber;               // The line number of this line in the program file
-    protected String statement;             // The statement on this line (rawLine with any label removed)
-    protected Map<String,Integer> labelMap; // Map from line label to line number
-    protected Map<String,Integer> varMap;   // Map from variable name to value
+    // The whole line as it appears in the program file
+    protected String rawLine;              
+    // The line number of this line in the program file
+    protected int lineNumber;               
+    // The statement on this line (rawLine with any label removed)
+    protected String statement;             
+    // Map from line label to line number
+    protected Map<String,Integer> labelMap; 
+    // Map from variable name to value
+    protected Map<String,Integer> varMap;   
 
     /**
-     * Factory method that returns an object of the specific ProgramStatement sub-class
-     * that matches the statement in the rawLine.
+     * Factory method that creates and returns an object of 
+     * the specific ProgramStatement subclass that will 
+     * interpret the statement in the rawLine.
+ 
+     * This method uses the static match(...) method in each 
+     * subclass to find the one that is able to interpret the 
+     * statement in the rawLine,
      * 
      * @param lineNumber the line number on which this statement occurs in the program.
      * @param rawLine the raw text of the line as it was read from the source code.
@@ -32,13 +43,25 @@ public abstract class ProgramStatement {
         Map<String,Integer> labelMap, 
         Map<String,Integer> varMap) {
 
-        // If the line contains a label remove it before matching it to a statement type.
+        /*
+         * The rawLine contains the statement to be interpreted.  If that line
+         * has a line label, then it will be in the rawLine varaible. Here,
+         * we remove the line label so that we are just left with the Silli 
+         * statement.  This makes it easier for the match(...) methods in the
+         * subclass to determine if they can interpert the statement.
+         */
         String statement = rawLine.trim();
         if (rawLine.contains(":")) {
             statement = rawLine.substring(rawLine.indexOf(":")+1).trim();
         }
 
-        // Find and return the type of statement that we have...
+        /* 
+         * Use the static match(...) method in each ProgramStatement subclass 
+         * to find the one that can interpret the Silli statement we are currently 
+         * processing. When we do, create an instance of that subclass and return
+         * it to the Interpreter. The Interpreter then uses the execute() method in
+         * that subcalss to interpret the statement.
+         */
         if (Blank.matches(statement)) {
             return new Blank(lineNumber, rawLine, labelMap, varMap);
         }
@@ -48,7 +71,7 @@ public abstract class ProgramStatement {
         else if (Declaration.matches(statement)) {
             return new Declaration(lineNumber, rawLine, labelMap, varMap);
         }
-        // Add more statement types here...
+        // Add checks for additional statement types here...
         else {
             return null;    // No matching statement type was found.
         }
