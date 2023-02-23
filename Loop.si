@@ -1,0 +1,13 @@
+# A program with a loop.
+LET I=0
+LET J=2
+LET K=0
+
+# Read Input
+READ K
+
+LOOP: PRINT I 
+I=I+J
+IF I<K GOTO LOOP
+
+PRINT I
