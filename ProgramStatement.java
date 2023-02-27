@@ -98,7 +98,7 @@ public abstract class ProgramStatement {
 
         // If the line starts with a label, extract the label and add its value to the varMap.
 		if (rawLine.contains(":")) {
-			String lineLabel = rawLine.substring(0, rawLine.indexOf(':'));
+			String lineLabel = rawLine.substring(0, rawLine.indexOf(':')).trim();
             
             if (labelMap.containsKey(lineLabel)) {
                 /* 
